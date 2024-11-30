@@ -58,6 +58,33 @@ fn display_weather_info(response: &WeatherData) {
     let pressure: f64 = response.main.pressure;
     let wind_speed: f64 = response.wind.speed;
 
-    
+    //Coloring the weather text color
+    let weather_text_colored: ColoredString = match description.as_str() {
+        "clear sky" => weather_text.bright_yellow(),
+        "few clouds" | "scattered clouds" | "broken clouds" => weather_text.bright_blue(),
+        "overcast clouds" | "mist" | "haze" | "smoke" | "sand" | "dust" | "fog" | "squalls" => {
+            weather_text.dimmed()
+        }
+        "shower rain" | "rain" | "thunderstorm" | "snow" => weather_text.bright_cyan(),
+        _ => weather_text.normal(),
+    };
+
+    // Function to print the colored weather information
+    println!("{}", weather_text_colored);
+
+    // Function to create emoji based on tempreture
+    fn get_temp_emoji(tempreture: f64) -> &'static str {
+        if tempreture < 0.0 {
+            "❄️"
+        } else if tempreture >= 0.0 && tempreture < 10.0 {
+            "☁️"
+        } else if tempreture >= 10.0 && tempreture < 20.0 {
+            "⛅"
+        } else if tempreture >= 20.0 && tempreture < 30.0 {
+            "🌤️"
+        } else {
+            "🔥"
+        }
+    }
 }
 
