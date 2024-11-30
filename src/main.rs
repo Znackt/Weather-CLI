@@ -1,9 +1,8 @@
 use colored::*;
 use dotenv::dotenv;
-use reqwest::Response;
 use serde::Deserialize;
 use std::env;
-use std::{fmt::format, io};
+use std::io;
 
 // Struct to deserialise the json response from openWeatherMap API
 #[derive(Deserialize, Debug)]
