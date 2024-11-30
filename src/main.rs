@@ -58,6 +58,22 @@ fn display_weather_info(response: &WeatherData) {
     let pressure: f64 = response.main.pressure;
     let wind_speed: f64 = response.wind.speed;
 
+    //Formatting weather information into a string!
+    let weather_text: String = format!(
+        "Weather in {}: {} {}
+        > Tempreture: {:.1} °C,
+        > Humidity: {:.1} %,
+        > Pressure: {:.1} hPa,
+        > Wind Speed: {:.1} m/s",
+        response.name,
+        description,
+        get_temp_emoji(tempreture),
+        tempreture,
+        humidity,
+        pressure,
+        wind_speed,
+    );
+
     //Coloring the weather text color
     let weather_text_colored: ColoredString = match description.as_str() {
         "clear sky" => weather_text.bright_yellow(),
