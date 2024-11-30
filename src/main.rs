@@ -104,3 +104,51 @@ fn display_weather_info(response: &WeatherData) {
     }
 }
 
+fn main() {
+    // Load .env file
+    dotenv().ok();
+
+    // Get API key from environment
+    let api_key = env::var("OPENWEATHER_API_KEY").expect("OPENWEATHER_API_KEY must be set");
+
+    println!("{}", "Welcome to Weather Station!".bright_yellow());
+    loop {
+        //Reading City
+        println!("{}", "Please enter the name of the city: ".bright_green());
+        let mut city = String::new();
+        io::stdin()
+            .read_line(&mut city)
+            .expect("Failed to read input!");
+        let city: &str = city.trim();
+
+        //Reading Country
+        println!(
+            "{}",
+            "Please enter the country code (e.g., US for United States): ".bright_magenta()
+        );
+        let mut country_code = String::new();
+        io::stdin()
+            .read_line(&mut country_code)
+            .expect("Failed to read input!");
+        let country_code = country_code.trim();
+
+        // Get and display weather information
+        match get_weather_info(city, country_code, &api_key) {
+            Ok(weather_data) => {
+                display_weather_info(&weather_data);
+                println!("\nWould you like to check another location? (y/n): ");
+                let mut continue_choice = String::new();
+                io::stdin()
+                    .read_line(&mut continue_choice)
+                    .expect("Failed to read input");
+                if continue_choice.trim().to_lowercase() != "y" {
+                    break;
+                }
+            }
+            Err(e) => println!(
+                "{}",
+                format!("Error fetching weather data: {}", e).bright_red()
+            ),
+        }
+    }
+}
